@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.AppSplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/teal_200</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/oc_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.OxiCalc</item>
+    
+    </style>
+    <style name="Theme.OxiCalc" parent="android:Theme.Material.NoActionBar" />
+</resources>
