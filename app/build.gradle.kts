@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+
+    id("com.google.dagger.hilt.android") // Apply the Hilt plugin here
+    id("kotlin-kapt") //
 }
 
 android {
@@ -51,10 +54,16 @@ android {
 
 dependencies {
 
+    // Hilt dependencies
+    implementation("com.google.dagger:hilt-android:2.48.1") // Add this line
+    kapt("com.google.dagger:hilt-compiler:2.48.1") // Add this line
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
     implementation (libs.androidx.core.ktx.v1120)
 
     implementation (libs.androidx.material.icons.extended)
 
+    implementation ("androidx.navigation:navigation-compose:2.7.5")
 
     implementation(libs.androidx.lifecycle.runtime.ktx)
    // implementation(libs.androidx.activity.compose)
