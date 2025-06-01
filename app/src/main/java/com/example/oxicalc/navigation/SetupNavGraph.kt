@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import com.example.oxicalc.View.HomeScreen
 import com.example.oxicalc.View.RulesScreen
 import com.example.oxicalc.View.HistoryScreen
+import com.example.oxicalc.viewModel.HistoryViewModel
 import com.example.oxicalc.viewModel.OxidationViewModel
 
 @Composable
@@ -22,11 +23,13 @@ fun SetupNavGraph(
         modifier = modifier
     ) {
         composable(route = Screen.Home.route) {
-            val viewModel: OxidationViewModel = hiltViewModel()
-            HomeScreen(viewModel = viewModel)
+            val oxidationViewModel: OxidationViewModel = hiltViewModel()
+            val historyViewModel: HistoryViewModel = hiltViewModel()
+            HomeScreen(viewModel = oxidationViewModel, historyViewModel = historyViewModel)
         }
         composable(route = Screen.History.route) {
-            HistoryScreen()
+            val viewModel: HistoryViewModel = hiltViewModel()
+            HistoryScreen(viewModel = viewModel)
         }
         composable(route = Screen.Rules.route) {
             RulesScreen()

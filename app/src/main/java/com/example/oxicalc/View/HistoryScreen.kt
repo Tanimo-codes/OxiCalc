@@ -27,25 +27,15 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.oxicalc.Model.CalculationHistoryItem
+import com.example.oxicalc.viewModel.HistoryViewModel
 
-data class CalculationHistoryItem(
-    val id: Int,
-    val formula: String,
-    val solution: String
-)
+
 
 @Composable
-fun HistoryScreen() {
-    val historyItems = remember {
-        mutableStateListOf(
-            CalculationHistoryItem(1, "2x + 5 = 15", "x = 5"),
-            CalculationHistoryItem(2, "3y - 7 = 14", "y = 7"),
-            CalculationHistoryItem(3, "4z + 10 = 30", "z = 5"),
-            CalculationHistoryItem(4, "a² + 9 = 25", "a = ±4"),
-            CalculationHistoryItem(5, "2b - 6 = 8", "b = 7")
-        )
-    }
+fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
+    val historyItems by viewModel.historyItems.collectAsState()
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Column(
@@ -77,7 +67,7 @@ fun HistoryScreen() {
                     ) { item ->
                         SwipeableHistoryItem(
                             item = item,
-                            onDelete = { historyItems.removeIf { it.id == item.id } }
+                            onDelete = { viewModel.deleteHistory(item) }
                         )
                     }
                 }
@@ -182,12 +172,16 @@ fun SwipeableHistoryItem(
                             .fillMaxWidth()
                             .padding(top = 8.dp)
                     ) {
-                        Divider()
+                        HorizontalDivider()
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             "Solution:",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Medium
+                        )
+                        Text(
+                            text = "${item.targetElement} = ${item.oxidationState}",
+                            style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
                             text = item.solution,

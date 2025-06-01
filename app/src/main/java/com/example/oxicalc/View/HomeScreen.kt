@@ -12,11 +12,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.oxicalc.viewModel.HistoryViewModel
 import com.example.oxicalc.viewModel.OxidationViewModel
 
 
 @Composable
-fun HomeScreen(viewModel: OxidationViewModel = viewModel()) {
+fun HomeScreen(viewModel: OxidationViewModel = viewModel(), historyViewModel: HistoryViewModel = viewModel()) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -46,7 +47,12 @@ fun HomeScreen(viewModel: OxidationViewModel = viewModel()) {
         Spacer(modifier = Modifier.height(30.dp))
 
         ElevatedButton(
-            onClick = { viewModel.onCalculateClicked() }
+            onClick = {
+                viewModel.onCalculateClicked { item ->
+                    historyViewModel.addHistory(item)
+                }
+            }
+
         ) {
             Text("Solve",
                 fontSize = 22.sp,
@@ -75,13 +81,15 @@ fun HomeScreen(viewModel: OxidationViewModel = viewModel()) {
     }
 }
 
-// TODO: Create light and dark mode themes and beautify UI instead of device default themes
-// TODO: Create a room db for storing the history
-// TODO: resolve the calculation algorithm its a bit wonky
-// TODO: add other parts into the dictionary that the app will use (eg. metal complexes)
-// TODO: Learn and perform unit tests
-// todo: Add that intro feature you see while using new apps
-// TODO: If everything works fine, add Ads to the app, small ones
+/*
+TODO: Create light and dark mode themes and beautify UI instead of device default themes
+TODO: Create a room db for storing the history                                              DONE
+TODO: resolve the calculation algorithm its a bit wonky                                     DONE
+TODO: add other parts into the dictionary that the app will use (eg. metal complexes)       DONE
+TODO: Learn and perform unit tests
+todo: Add that intro feature you see while using new apps
+TODO: If everything works fine, add Ads to the app, small ones
+*/
 
 @Preview (showBackground = true)
 @Composable
