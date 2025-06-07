@@ -121,9 +121,7 @@ fun HomeScreenPreview() {
 
 
 /*
-TODO: Create light and dark mode themes and beautify UI instead of device default themes        DONE
-: Learn and perform unit tests
+
 todo: Add that intro feature you see while using new apps
-TODO: If everything works fine, add Ads to the app, small ones
 */
 

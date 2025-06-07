@@ -59,6 +59,9 @@ dependencies {
 
     kapt ("androidx.room:room-compiler:2.6.1")
 
+    implementation("com.google.accompanist:accompanist-pager:0.28.0")
+
+
     // Hilt dependencies
     implementation("com.google.dagger:hilt-android:2.48.1") // Add this line
     kapt("com.google.dagger:hilt-compiler:2.48.1") // Add this line
