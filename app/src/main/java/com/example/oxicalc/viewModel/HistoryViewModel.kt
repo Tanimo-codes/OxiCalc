@@ -2,8 +2,8 @@ package com.example.oxicalc.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.oxicalc.Model.CalculationHistoryItem
-import com.example.oxicalc.Model.historyRepo
+import com.example.oxicalc.model.CalculationHistoryItem
+import com.example.oxicalc.model.historyRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn

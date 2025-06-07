@@ -18,7 +18,7 @@ object OxidationStateCalculator {
         "Br" to -1,
         "I" to -1,
         // Group 1 (alkali) metals
-        "H" to +1,
+        "H" to 1,
         "Na" to +1,
         "Li" to +1,
         "Rb" to +1,
@@ -44,7 +44,7 @@ object OxidationStateCalculator {
         "CO3" to -2,
         "PO4" to -3,
         "OH" to -1,
-        "NH4" to +1,
+        "NH4" to 1,
         "CN" to -1,
         "en"  to 0,
 

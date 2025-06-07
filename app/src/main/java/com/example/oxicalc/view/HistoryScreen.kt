@@ -1,6 +1,7 @@
-package com.example.oxicalc.View
+package com.example.oxicalc.view
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -8,6 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,21 +30,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.oxicalc.Model.CalculationHistoryItem
+import com.example.oxicalc.model.CalculationHistoryItem
 import com.example.oxicalc.viewModel.HistoryViewModel
+import com.example.oxicalc.ui.theme.OxiCalcTheme
 
 
 
 @Composable
 fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
     val historyItems by viewModel.historyItems.collectAsState()
+    val colorScheme = MaterialTheme.colorScheme
 
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+
+        containerColor = colorScheme.surface
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
             if (historyItems.isEmpty()) {
                 Box(
@@ -53,18 +61,16 @@ fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
                 ) {
                     Text(
                         "No calculation history found",
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = colorScheme.onSurfaceVariant
                     )
                 }
             } else {
                 LazyColumn(
                     modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    items(
-                        items = historyItems,
-                        key = { it.id }
-                    ) { item ->
+                    items(items = historyItems, key = { it.id }) { item ->
                         SwipeableHistoryItem(
                             item = item,
                             onDelete = { viewModel.deleteHistory(item) }
@@ -76,17 +82,19 @@ fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+
+
 @Composable
 fun SwipeableHistoryItem(
     item: CalculationHistoryItem,
     onDelete: () -> Unit
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
-    var offsetX by remember { mutableStateOf(0f) }
+    var offsetX by remember { mutableFloatStateOf(0f) }
     val density = LocalDensity.current
+    val isDarkMode = isSystemInDarkTheme()
 
-    val dismissThreshold = -120.dp
+    val dismissThreshold = (-120).dp
     val dismissThresholdPx = with(density) { dismissThreshold.toPx() }
 
     val rotationAngle by animateFloatAsState(
@@ -94,6 +102,13 @@ fun SwipeableHistoryItem(
         animationSpec = tween(200),
         label = "rotationAnimation"
     )
+
+    val backgroundColor = if (expanded) Color(0xFF1565C0) else Color(0xFFBBDEFB)
+    val contentColor = when {
+        expanded -> Color.White
+        isDarkMode -> Color.Black.copy(alpha = 0.87f)
+        else -> MaterialTheme.colorScheme.onSurface
+    }
 
     Box(
         modifier = Modifier
@@ -135,12 +150,11 @@ fun SwipeableHistoryItem(
                     }
                 )
                 .clickable { expanded = !expanded },
+            colors = CardDefaults.cardColors(containerColor = backgroundColor),
             elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
             shape = RoundedCornerShape(8.dp)
         ) {
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
+            Column(modifier = Modifier.padding(16.dp)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -148,7 +162,8 @@ fun SwipeableHistoryItem(
                 ) {
                     Text(
                         text = item.formula,
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = contentColor,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1,
                         modifier = Modifier.weight(1f)
@@ -161,7 +176,8 @@ fun SwipeableHistoryItem(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                             contentDescription = if (expanded) "Collapse" else "Expand",
-                            modifier = Modifier.rotate(rotationAngle)
+                            modifier = Modifier.rotate(rotationAngle),
+                            tint = contentColor
                         )
                     }
                 }
@@ -172,20 +188,23 @@ fun SwipeableHistoryItem(
                             .fillMaxWidth()
                             .padding(top = 8.dp)
                     ) {
-                        HorizontalDivider()
+                        HorizontalDivider(color = Color.White.copy(alpha = 0.5f))
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             "Solution:",
                             style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.Medium
+                            fontWeight = FontWeight.Medium,
+                            color = Color.White
                         )
                         Text(
                             text = "${item.targetElement} = ${item.oxidationState}",
-                            style = MaterialTheme.typography.bodyMedium
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.White
                         )
                         Text(
                             text = item.solution,
-                            style = MaterialTheme.typography.bodyMedium
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.White
                         )
                     }
                 }

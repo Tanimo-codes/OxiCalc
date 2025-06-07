@@ -5,7 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.oxicalc.Model.CalculationHistoryItem
+import com.example.oxicalc.model.CalculationHistoryItem
 import com.example.oxicalc.viewModel.parser.FormulaParser
 import com.example.oxicalc.viewModel.parser.OxidationStateCalculator
 import com.example.oxicalc.viewModel.parser.OxidationStateResult

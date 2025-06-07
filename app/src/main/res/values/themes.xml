@@ -7,5 +7,6 @@
         <item name="postSplashScreenTheme">@style/Theme.OxiCalc</item>
     
     </style>
-    <style name="Theme.OxiCalc" parent="android:Theme.Material.NoActionBar" />
+    <style name="Theme.OxiCalc" parent="android:Theme.Material.NoActionBar">
+    </style>
 </resources>

@@ -6,9 +6,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.oxicalc.View.HomeScreen
-import com.example.oxicalc.View.RulesScreen
-import com.example.oxicalc.View.HistoryScreen
+import com.example.oxicalc.view.HomeScreen
+import com.example.oxicalc.view.RulesScreen
+import com.example.oxicalc.view.HistoryScreen
 import com.example.oxicalc.viewModel.HistoryViewModel
 import com.example.oxicalc.viewModel.OxidationViewModel
 

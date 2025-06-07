@@ -1,4 +1,4 @@
-package com.example.oxicalc.Model
+package com.example.oxicalc.model
 
 import android.content.Context
 import androidx.room.Database

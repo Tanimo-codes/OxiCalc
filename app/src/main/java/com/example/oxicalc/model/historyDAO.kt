@@ -1,7 +1,6 @@
-package com.example.oxicalc.Model
+package com.example.oxicalc.model
 
 import androidx.room.*
-import com.example.oxicalc.Model.CalculationHistoryItem
 import kotlinx.coroutines.flow.Flow
 
 @Dao

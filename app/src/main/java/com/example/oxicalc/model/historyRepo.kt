@@ -1,4 +1,4 @@
-package com.example.oxicalc.Model
+package com.example.oxicalc.model
 
 import javax.inject.Inject
 
