@@ -1,6 +1,5 @@
 package com.example.oxicalc.view
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -11,19 +10,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.oxicalc.R
+import com.example.oxicalc.model.saveOnboardingState
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.preferencesDataStore
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import com.example.oxicalc.model.saveOnboardingState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.flow.first
-
-// Extension for datastore
-private val Context.dataStore by preferencesDataStore(name = "settings")
-private val ONBOARDING_KEY = booleanPreferencesKey("onboarding_completed")
 
 data class OnboardingPage(
     val title: String,
@@ -56,43 +45,49 @@ fun OnboardingScreen(onFinished: () -> Unit) {
         )
     )
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        HorizontalPager(count = pages.size, state = pagerState) { page ->
-            OnboardingPageContent(page = pages[page])
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
-            TextButton(onClick = {
-                scope.launch {
-                    saveOnboardingState(context, true)
-                    onFinished()
-                }
-            }) {
-                Text("Skip")
+            HorizontalPager(
+                count = pages.size,
+                state = pagerState,
+                modifier = Modifier.weight(1f)
+            ) { page ->
+                OnboardingPageContent(page = pages[page])
             }
 
-            Button(onClick = {
-                if (pagerState.currentPage == pages.lastIndex) {
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                TextButton(onClick = {
                     scope.launch {
                         saveOnboardingState(context, true)
                         onFinished()
                     }
-                } else {
-                    scope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                    }
+                }) {
+                    Text("Skip")
                 }
-            }) {
-                Text(if (pagerState.currentPage == pages.lastIndex) "Start" else "Next")
+
+                Button(onClick = {
+                    scope.launch {
+                        if (pagerState.currentPage == pages.lastIndex) {
+                            saveOnboardingState(context, true)
+                            onFinished()
+                        } else {
+                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                        }
+                    }
+                }) {
+                    Text(if (pagerState.currentPage == pages.lastIndex) "Start" else "Next")
+                }
             }
         }
     }
@@ -118,7 +113,3 @@ fun OnboardingPageContent(page: OnboardingPage) {
         )
     }
 }
-
-
-
-

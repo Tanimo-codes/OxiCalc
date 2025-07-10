@@ -122,6 +122,5 @@ fun HomeScreenPreview() {
 
 /*
 
-todo: Add that intro feature you see while using new apps
 */
 
